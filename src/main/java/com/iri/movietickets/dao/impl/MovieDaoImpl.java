@@ -28,7 +28,9 @@ public class MovieDaoImpl implements MovieDao {
             }
             throw new DataProcessingException("Could not insert entity" + movie, e);
         } finally {
-            session.close();
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
