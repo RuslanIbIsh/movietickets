@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
         <property name="connection.url">jdbc:mysql://localhost:3306/movietickets_db?serverTimezone=UTC</property>
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="connection.username">root</property>
@@ -12,5 +12,8 @@
         <property name="show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">create-drop</property>
         <mapping class="com.iri.movietickets.model.Movie"/>
+        <mapping class="com.iri.movietickets.model.MovieSession"/>
+        <mapping class="com.iri.movietickets.model.CinemaHall"/>
+
     </session-factory>
 </hibernate-configuration>
