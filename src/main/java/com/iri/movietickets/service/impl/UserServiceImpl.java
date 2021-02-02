@@ -5,6 +5,7 @@ import com.iri.movietickets.lib.Inject;
 import com.iri.movietickets.lib.Service;
 import com.iri.movietickets.model.User;
 import com.iri.movietickets.service.UserService;
+import com.iri.movietickets.util.HashUtil;
 import java.util.Optional;
 
 @Service
@@ -14,6 +15,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User add(User user) {
+        user.setSalt(HashUtil.getSalt());
+        String hashedPassword = HashUtil.hashPassword(user.getPassword(), user.getSalt());
+        user.setPassword(hashedPassword);
         return userDao.add(user);
     }
 
