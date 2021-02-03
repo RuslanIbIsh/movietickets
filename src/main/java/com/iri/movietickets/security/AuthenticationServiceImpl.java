@@ -24,7 +24,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 throw new AuthenticationException("Wrong email or password");
             }
         } else {
-          throw new NullPointerException("This user has not registered yet");
+            throw new NullPointerException("This user has not registered yet");
         }
     }
 
