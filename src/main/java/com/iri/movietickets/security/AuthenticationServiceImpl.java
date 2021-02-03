@@ -20,12 +20,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             String hashedPassword = HashUtil.hashPassword(password, user.get().getSalt());
             if (user.get().getPassword().equals(hashedPassword)) {
                 return user.get();
-            } else {
-                throw new AuthenticationException("Wrong email or password");
             }
-        } else {
-            throw new NullPointerException("This user has not registered yet");
         }
+        throw new AuthenticationException("Wrong email or password");
     }
 
     @Override
