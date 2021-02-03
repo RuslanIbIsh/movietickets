@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "movie")
+@Table(name = "movies")
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,9 +20,6 @@ public class Movie {
 
     @Column(name = "description")
     private String description;
-
-    public Movie() {
-    }
 
     public Movie(String title, String description) {
         this.title = title;

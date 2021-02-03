@@ -1,6 +1,5 @@
 package com.iri.movietickets.model;
 
-import java.util.Arrays;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,9 +20,6 @@ public class User {
     private String password;
     @Column(name = "salt")
     private byte[] salt;
-
-    public User() {
-    }
 
     public Long getId() {
         return id;
@@ -61,8 +57,6 @@ public class User {
     public String toString() {
         return "User{" + "id=" + id
                 + ", email='" + email + '\''
-                + ", password='" + password + '\''
-                + ", salt=" + Arrays.toString(salt)
                 + '}';
     }
 }

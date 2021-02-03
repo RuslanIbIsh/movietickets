@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "cinemahall")
+@Table(name = "cinemahalls")
 public class CinemaHall {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,10 +18,6 @@ public class CinemaHall {
     private int capacity;
     @Column(name = "description")
     private String description;
-
-    public CinemaHall() {
-
-    }
 
     public Long getId() {
         return id;
