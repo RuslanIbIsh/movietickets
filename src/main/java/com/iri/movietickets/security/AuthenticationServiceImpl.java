@@ -4,6 +4,7 @@ import com.iri.movietickets.exception.AuthenticationException;
 import com.iri.movietickets.lib.Inject;
 import com.iri.movietickets.lib.Service;
 import com.iri.movietickets.model.User;
+import com.iri.movietickets.service.ShoppingCartService;
 import com.iri.movietickets.service.UserService;
 import com.iri.movietickets.util.HashUtil;
 import java.util.Optional;
@@ -12,6 +13,8 @@ import java.util.Optional;
 public class AuthenticationServiceImpl implements AuthenticationService {
     @Inject
     private UserService userService;
+    @Inject
+    private ShoppingCartService shoppingCartService;
 
     @Override
     public User login(String email, String password) throws AuthenticationException {
@@ -30,7 +33,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = new User();
         user.setEmail(email);
         user.setPassword(password);
-        userService.add(user);
+        User userRegisted = userService.add(user);
+        shoppingCartService.registerNewShoppingCart(userRegisted);
         return user;
     }
 }

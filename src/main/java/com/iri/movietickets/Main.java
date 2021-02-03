@@ -6,10 +6,13 @@ import com.iri.movietickets.lib.Injector;
 import com.iri.movietickets.model.CinemaHall;
 import com.iri.movietickets.model.Movie;
 import com.iri.movietickets.model.MovieSession;
+import com.iri.movietickets.model.ShoppingCart;
+import com.iri.movietickets.model.User;
 import com.iri.movietickets.security.AuthenticationService;
 import com.iri.movietickets.service.CinemaHallService;
 import com.iri.movietickets.service.MovieService;
 import com.iri.movietickets.service.MovieSessionService;
+import com.iri.movietickets.service.ShoppingCartService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -42,12 +45,19 @@ public class Main {
                 LocalDate.of(2021, 02, 01));
         AuthenticationService authenticationService =
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
-        authenticationService.register("bob@mail.com", "1235");
-        authenticationService.register("alice@mail.com", "9876");
+        User userOne = authenticationService.register("bob@mail.com", "1235");
+        User userTwo = authenticationService.register("alice@mail.com", "9876");
         try {
             authenticationService.login("bob@mail.com", "1235");
         } catch (AuthenticationException e) {
             throw new DataProcessingException("Can't login user", e);
         }
+
+        ShoppingCartService shoppingCartService =
+                (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+        shoppingCartService.addSession(movieSession, userOne);
+        shoppingCartService.addSession(movieSession, userTwo);
+        ShoppingCart shoppingCart = shoppingCartService.getByUser(userTwo);
+        shoppingCartService.clear(shoppingCart);
     }
 }
