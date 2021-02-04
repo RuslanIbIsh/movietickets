@@ -12,6 +12,7 @@ import com.iri.movietickets.security.AuthenticationService;
 import com.iri.movietickets.service.CinemaHallService;
 import com.iri.movietickets.service.MovieService;
 import com.iri.movietickets.service.MovieSessionService;
+import com.iri.movietickets.service.OrderService;
 import com.iri.movietickets.service.ShoppingCartService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -59,5 +60,9 @@ public class Main {
         shoppingCartService.addSession(movieSession, userTwo);
         ShoppingCart shoppingCart = shoppingCartService.getByUser(userTwo);
         shoppingCartService.clear(shoppingCart);
+
+        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
+        orderService.completeOrder(shoppingCart);
+        orderService.getOrderHistory(userOne);
     }
 }

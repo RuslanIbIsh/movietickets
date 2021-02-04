@@ -17,5 +17,6 @@
         <mapping class="com.iri.movietickets.model.User"/>
         <mapping class="com.iri.movietickets.model.ShoppingCart"/>
         <mapping class="com.iri.movietickets.model.Ticket"/>
+        <mapping class="com.iri.movietickets.model.Order"/>
     </session-factory>
 </hibernate-configuration>
