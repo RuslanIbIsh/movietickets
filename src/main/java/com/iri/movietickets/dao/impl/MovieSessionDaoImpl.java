@@ -2,22 +2,28 @@ package com.iri.movietickets.dao.impl;
 
 import com.iri.movietickets.dao.MovieSessionDao;
 import com.iri.movietickets.exception.DataProcessingException;
-import com.iri.movietickets.lib.Dao;
 import com.iri.movietickets.model.MovieSession;
-import com.iri.movietickets.util.HibernateUtil;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
-@Dao
+@Repository
 public class MovieSessionDaoImpl implements MovieSessionDao {
+    private SessionFactory sessionFactory;
+
+    public MovieSessionDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Query<MovieSession> getMovieSessions = session.createQuery(
                     "select ms from MovieSession ms "
                             + "where ms.movie.id = :movieId "
@@ -40,7 +46,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.persist(movieSession);
             transaction.commit();

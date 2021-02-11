@@ -1,20 +1,23 @@
 package com.iri.movietickets.security;
 
 import com.iri.movietickets.exception.AuthenticationException;
-import com.iri.movietickets.lib.Inject;
-import com.iri.movietickets.lib.Service;
 import com.iri.movietickets.model.User;
 import com.iri.movietickets.service.ShoppingCartService;
 import com.iri.movietickets.service.UserService;
 import com.iri.movietickets.util.HashUtil;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
-    @Inject
     private UserService userService;
-    @Inject
     private ShoppingCartService shoppingCartService;
+
+    public AuthenticationServiceImpl(UserService userService,
+                                     ShoppingCartService shoppingCartService) {
+        this.userService = userService;
+        this.shoppingCartService = shoppingCartService;
+    }
 
     @Override
     public User login(String email, String password) throws AuthenticationException {

@@ -1,17 +1,19 @@
 package com.iri.movietickets.service.impl;
 
 import com.iri.movietickets.dao.UserDao;
-import com.iri.movietickets.lib.Inject;
-import com.iri.movietickets.lib.Service;
 import com.iri.movietickets.model.User;
 import com.iri.movietickets.service.UserService;
 import com.iri.movietickets.util.HashUtil;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Inject
     private UserDao userDao;
+
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     public User add(User user) {

@@ -1,8 +1,6 @@
 package com.iri.movietickets.service.impl;
 
 import com.iri.movietickets.dao.OrderDao;
-import com.iri.movietickets.lib.Inject;
-import com.iri.movietickets.lib.Service;
 import com.iri.movietickets.model.Order;
 import com.iri.movietickets.model.ShoppingCart;
 import com.iri.movietickets.model.User;
@@ -11,13 +9,17 @@ import com.iri.movietickets.service.ShoppingCartService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class OrderServiceImpl implements OrderService {
-    @Inject
     private OrderDao orderDao;
-    @Inject
     private ShoppingCartService shoppingCartService;
+
+    public OrderServiceImpl(OrderDao orderDao, ShoppingCartService shoppingCartService) {
+        this.orderDao = orderDao;
+        this.shoppingCartService = shoppingCartService;
+    }
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
