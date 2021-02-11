@@ -43,7 +43,7 @@ public class AppConfig {
         props.put("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
         props.put("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
         localSession.setHibernateProperties(props);
-        localSession.setPackagesToScan();
+        localSession.setPackagesToScan("com.iri.movietckets.model");
         return localSession;
     }
 }
