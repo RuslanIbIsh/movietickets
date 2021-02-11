@@ -6,12 +6,14 @@ import com.iri.movietickets.lib.Injector;
 import com.iri.movietickets.model.CinemaHall;
 import com.iri.movietickets.model.Movie;
 import com.iri.movietickets.model.MovieSession;
+import com.iri.movietickets.model.Order;
 import com.iri.movietickets.model.ShoppingCart;
 import com.iri.movietickets.model.User;
 import com.iri.movietickets.security.AuthenticationService;
 import com.iri.movietickets.service.CinemaHallService;
 import com.iri.movietickets.service.MovieService;
 import com.iri.movietickets.service.MovieSessionService;
+import com.iri.movietickets.service.OrderService;
 import com.iri.movietickets.service.ShoppingCartService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -57,7 +59,13 @@ public class Main {
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
         shoppingCartService.addSession(movieSession, userOne);
         shoppingCartService.addSession(movieSession, userTwo);
-        ShoppingCart shoppingCart = shoppingCartService.getByUser(userTwo);
-        shoppingCartService.clear(shoppingCart);
+        ShoppingCart shoppingCartOne = shoppingCartService.getByUser(userOne);
+        shoppingCartService.clear(shoppingCartOne);
+
+        ShoppingCart shoppingCartTwo = shoppingCartService.getByUser(userTwo);
+        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
+        Order order = orderService.completeOrder(shoppingCartTwo);
+        System.out.println(order);
+        System.out.println(orderService.getOrderHistory(userTwo));
     }
 }
