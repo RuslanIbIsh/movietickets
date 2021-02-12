@@ -1,17 +1,19 @@
 package com.iri.movietickets.service.impl;
 
 import com.iri.movietickets.dao.MovieSessionDao;
-import com.iri.movietickets.lib.Inject;
-import com.iri.movietickets.lib.Service;
 import com.iri.movietickets.model.MovieSession;
 import com.iri.movietickets.service.MovieSessionService;
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class MovieSessionServiceImpl implements MovieSessionService {
-    @Inject
     private MovieSessionDao movieSessionDao;
+
+    public MovieSessionServiceImpl(MovieSessionDao movieSessionDao) {
+        this.movieSessionDao = movieSessionDao;
+    }
 
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {

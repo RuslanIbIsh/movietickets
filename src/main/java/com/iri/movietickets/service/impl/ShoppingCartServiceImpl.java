@@ -2,21 +2,23 @@ package com.iri.movietickets.service.impl;
 
 import com.iri.movietickets.dao.ShoppingCartDao;
 import com.iri.movietickets.dao.TicketDao;
-import com.iri.movietickets.lib.Inject;
-import com.iri.movietickets.lib.Service;
 import com.iri.movietickets.model.MovieSession;
 import com.iri.movietickets.model.ShoppingCart;
 import com.iri.movietickets.model.Ticket;
 import com.iri.movietickets.model.User;
 import com.iri.movietickets.service.ShoppingCartService;
 import java.util.ArrayList;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
-    @Inject
     private ShoppingCartDao shoppingCartDao;
-    @Inject
     private TicketDao ticketDao;
+
+    public ShoppingCartServiceImpl(ShoppingCartDao shoppingCartDao, TicketDao ticketDao) {
+        this.shoppingCartDao = shoppingCartDao;
+        this.ticketDao = ticketDao;
+    }
 
     @Override
     public void addSession(MovieSession movieSession, User user) {

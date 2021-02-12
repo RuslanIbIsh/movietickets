@@ -2,20 +2,26 @@ package com.iri.movietickets.dao.impl;
 
 import com.iri.movietickets.dao.OrderDao;
 import com.iri.movietickets.exception.DataProcessingException;
-import com.iri.movietickets.lib.Dao;
 import com.iri.movietickets.model.Order;
 import com.iri.movietickets.model.User;
-import com.iri.movietickets.util.HibernateUtil;
 import java.util.List;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
-@Dao
+@Repository
 public class OrderDaoImpl implements OrderDao {
+    private SessionFactory sessionFactory;
+
+    public OrderDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
     @Override
     public List<Order> getOrderHistory(User user) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Query<Order> getUserOrders = session.createQuery("select distinct o from Order o "
                             + "left join fetch o.tickets "
                             + "where o.user = :user ",
@@ -32,7 +38,7 @@ public class OrderDaoImpl implements OrderDao {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.save(order);
             transaction.commit();
