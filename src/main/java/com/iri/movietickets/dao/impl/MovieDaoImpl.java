@@ -4,6 +4,7 @@ import com.iri.movietickets.dao.MovieDao;
 import com.iri.movietickets.exception.DataProcessingException;
 import com.iri.movietickets.model.Movie;
 import java.util.List;
+import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -47,6 +48,15 @@ public class MovieDaoImpl implements MovieDao {
             return getAllMovies.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Could not execute query", e);
+        }
+    }
+
+    @Override
+    public Optional<Movie> get(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return Optional.ofNullable(session.get(Movie.class, id));
+        } catch (Exception e) {
+            throw new DataProcessingException("Could not get movie", e);
         }
     }
 }
