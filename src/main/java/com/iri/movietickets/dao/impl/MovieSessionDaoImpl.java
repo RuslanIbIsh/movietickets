@@ -64,13 +64,21 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     }
 
     @Override
-    public MovieSession update(MovieSession movieSession) {
+    public MovieSession update(Long id, MovieSession movieSession) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            session.update(movieSession);
+            Query updateQuery = session.createQuery("update MovieSession ms "
+                    + "set ms.showTime = :showTime, "
+                    + "ms.movie = :movie, ms.cinemaHall = :cinemaHall "
+                    + "where ms.id = :id", MovieSession.class);
+            updateQuery.setParameter("showTime", movieSession.getShowTime());
+            updateQuery.setParameter("movie", movieSession.getMovie());
+            updateQuery.setParameter("cinemaHall", movieSession.getCinemaHall());
+            updateQuery.setParameter("id", id);
+            updateQuery.executeUpdate();
             transaction.commit();
             return movieSession;
         } catch (Exception e) {
@@ -88,21 +96,22 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     }
 
     @Override
-    public MovieSession delete(MovieSession movieSession) {
+    public void delete(Long id) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            session.delete(movieSession);
+            Query deleteQuery = session.createQuery("delete MovieSession m "
+                    + "where m.id = :id", MovieSession.class);
+            deleteQuery.setParameter("id", id);
+            deleteQuery.executeUpdate();
             transaction.commit();
-            return movieSession;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Could not delete movie session"
-                    + movieSession, e);
+            throw new DataProcessingException("Could not delete movie session", e);
         } finally {
             if (session != null) {
                 session.close();

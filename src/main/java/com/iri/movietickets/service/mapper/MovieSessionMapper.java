@@ -23,15 +23,14 @@ public class MovieSessionMapper {
         MovieSessionResponseDto movieSessionResponseDto =
                 new MovieSessionResponseDto();
         movieSessionResponseDto.setMovieSessionId(movieSession.getId());
+        movieSessionResponseDto.setShowTime(movieSession.getShowTime().toString());
         movieSessionResponseDto.setMovieTitle(movieSession.getMovie().getTitle());
         movieSessionResponseDto.setCinemaHallId(movieSession.getCinemaHall().getId());
-        movieSessionResponseDto.setShowTime(movieSession.getShowTime().toString());
         return movieSessionResponseDto;
     }
 
     public MovieSession convertFromDto(MovieSessionRequestDto movieSessionRequestDto) {
         MovieSession movieSession = new MovieSession();
-        movieSession.setId(movieSessionRequestDto.getMovieSessionId());
         movieSession.setShowTime(LocalDateTime.parse(movieSessionRequestDto.getShowTime(),
                 DateTimeFormatter.ISO_LOCAL_DATE));
         movieSession.setMovie(movieService.get(movieSessionRequestDto.getMovieId()));

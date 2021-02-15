@@ -1,18 +1,9 @@
 package com.iri.movietickets.model.dto;
 
 public class MovieSessionRequestDto {
-    private Long movieSessionId;
     private String showTime;
     private Long movieId;
     private Long cinemaHallId;
-
-    public Long getMovieSessionId() {
-        return movieSessionId;
-    }
-
-    public void setMovieSessionId(Long movieSessionId) {
-        this.movieSessionId = movieSessionId;
-    }
 
     public String getShowTime() {
         return showTime;
