@@ -64,21 +64,13 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     }
 
     @Override
-    public MovieSession update(Long id, MovieSession movieSession) {
+    public MovieSession update(MovieSession movieSession) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            Query updateQuery = session.createQuery("update MovieSession ms "
-                    + "set ms.showTime = :showTime, "
-                    + "ms.movie = :movie, ms.cinemaHall = :cinemaHall "
-                    + "where ms.id = :id", MovieSession.class);
-            updateQuery.setParameter("showTime", movieSession.getShowTime());
-            updateQuery.setParameter("movie", movieSession.getMovie());
-            updateQuery.setParameter("cinemaHall", movieSession.getCinemaHall());
-            updateQuery.setParameter("id", id);
-            updateQuery.executeUpdate();
+            session.update(movieSession);
             transaction.commit();
             return movieSession;
         } catch (Exception e) {

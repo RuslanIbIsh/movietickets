@@ -1,5 +1,6 @@
 package com.iri.movietickets.controller;
 
+import com.iri.movietickets.model.MovieSession;
 import com.iri.movietickets.model.dto.MovieSessionRequestDto;
 import com.iri.movietickets.model.dto.MovieSessionResponseDto;
 import com.iri.movietickets.service.MovieSessionService;
@@ -8,7 +9,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/movie-sessions")
 public class MovieSessionController {
     private final MovieSessionMapper movieSessionMapper;
@@ -48,7 +49,9 @@ public class MovieSessionController {
     @PutMapping("/{id}")
     public void update(@PathVariable Long id,
                        @RequestBody MovieSessionRequestDto movieSessionRequestDto) {
-        movieSessionService.update(id, movieSessionMapper.convertFromDto(movieSessionRequestDto));
+        MovieSession movieSession = movieSessionMapper.convertFromDto(movieSessionRequestDto);
+        movieSession.setId(id);
+        movieSessionService.update(movieSession);
     }
 
     @DeleteMapping("/{id}")
