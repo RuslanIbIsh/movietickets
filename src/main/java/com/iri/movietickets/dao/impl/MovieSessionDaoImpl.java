@@ -95,7 +95,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             Query deleteQuery = session.createQuery("delete from MovieSession m "
-                    + "where m.id = :id", MovieSession.class);
+                    + "where m.id = :id");
             deleteQuery.setParameter("id", id);
             deleteQuery.executeUpdate();
             transaction.commit();

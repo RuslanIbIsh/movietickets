@@ -32,7 +32,7 @@ public class MovieSessionMapper {
     public MovieSession convertFromDto(MovieSessionRequestDto movieSessionRequestDto) {
         MovieSession movieSession = new MovieSession();
         movieSession.setShowTime(LocalDateTime.parse(movieSessionRequestDto.getShowTime(),
-                DateTimeFormatter.ISO_LOCAL_DATE));
+                DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         movieSession.setMovie(movieService.get(movieSessionRequestDto.getMovieId()));
         movieSession.setCinemaHall(cinemaHallService.get(movieSessionRequestDto.getCinemaHallId()));
         return movieSession;
