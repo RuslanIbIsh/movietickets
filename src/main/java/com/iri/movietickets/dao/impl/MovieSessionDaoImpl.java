@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -108,6 +109,16 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             if (session != null) {
                 session.close();
             }
+        }
+    }
+
+    @Override
+    public Optional<MovieSession> getById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            MovieSession movieSession = session.get(MovieSession.class, id);
+            return Optional.ofNullable(movieSession);
+        } catch (Exception e) {
+            throw new DataProcessingException("Could not get movie session", e);
         }
     }
 }

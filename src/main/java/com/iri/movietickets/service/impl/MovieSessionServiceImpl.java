@@ -1,6 +1,7 @@
 package com.iri.movietickets.service.impl;
 
 import com.iri.movietickets.dao.MovieSessionDao;
+import com.iri.movietickets.exception.DataProcessingException;
 import com.iri.movietickets.model.MovieSession;
 import com.iri.movietickets.service.MovieSessionService;
 import java.time.LocalDate;
@@ -33,5 +34,11 @@ public class MovieSessionServiceImpl implements MovieSessionService {
     @Override
     public void delete(Long id) {
         movieSessionDao.delete(id);
+    }
+
+    @Override
+    public MovieSession getById(Long id) {
+        return movieSessionDao.getById(id).orElseThrow(() ->
+                new DataProcessingException("Could not get movie session"));
     }
 }
