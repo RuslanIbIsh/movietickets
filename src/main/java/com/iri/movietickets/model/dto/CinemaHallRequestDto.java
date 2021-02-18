@@ -1,7 +1,10 @@
 package com.iri.movietickets.model.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class CinemaHallRequestDto {
     private int capacity;
+    @NotNull
     private String description;
 
     public int getCapacity() {

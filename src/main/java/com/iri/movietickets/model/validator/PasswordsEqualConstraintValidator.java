@@ -6,10 +6,10 @@ import javax.validation.ConstraintValidatorContext;
 
 public class PasswordsEqualConstraintValidator implements
         ConstraintValidator<PasswordsEqualConstraint, Object> {
-
     @Override
-    public boolean isValid(Object user, ConstraintValidatorContext arg1) {
+    public boolean isValid(Object user, ConstraintValidatorContext validatorContext) {
         UserRequestDto userRequestDto = (UserRequestDto) user;
-        return userRequestDto.getPassword().equals(userRequestDto.getRepeatPassword());
+        return userRequestDto.getPassword() != null
+                && userRequestDto.getPassword().equals(userRequestDto.getRepeatPassword());
     }
 }
