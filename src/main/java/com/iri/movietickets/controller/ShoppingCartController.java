@@ -1,5 +1,6 @@
 package com.iri.movietickets.controller;
 
+import com.iri.movietickets.exception.DataProcessingException;
 import com.iri.movietickets.model.MovieSession;
 import com.iri.movietickets.model.ShoppingCart;
 import com.iri.movietickets.model.User;
@@ -9,6 +10,8 @@ import com.iri.movietickets.service.ShoppingCartService;
 import com.iri.movietickets.service.UserService;
 import com.iri.movietickets.service.mapper.ShoppingCartMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,16 +38,20 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/movie-sessions")
-    public void addMovieSession(@RequestParam Long userId,
+    public void addMovieSession(Authentication authentication,
                                 @RequestParam Long movieSessionId) {
-        User user = userService.getById(userId);
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userService.findByEmail(userDetails.getUsername()).orElseThrow(() ->
+                new DataProcessingException("Could not find user by email"));
         MovieSession movieSession = movieSessionService.getById(movieSessionId);
         shoppingCartService.addSession(movieSession, user);
     }
 
     @GetMapping("/by-user")
-    public ShoppingCartResponseDto getByUser(@RequestParam Long userId) {
-        User user = userService.getById(userId);
+    public ShoppingCartResponseDto getByUser(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userService.findByEmail(userDetails.getUsername()).orElseThrow(() ->
+                new DataProcessingException("Could not find user by email"));
         ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
         return shoppingCartMapper.convertFromShoppingCart(shoppingCart);
     }
