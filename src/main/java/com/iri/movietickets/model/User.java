@@ -1,10 +1,12 @@
 package com.iri.movietickets.model;
 
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -16,6 +18,8 @@ public class User {
     @Column(nullable = false, unique = true, length = 20)
     private String email;
     private String password;
+    @ManyToMany
+    private Set<Role> userRoles;
 
     public Long getId() {
         return id;
@@ -39,6 +43,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Role> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(Set<Role> userRoles) {
+        this.userRoles = userRoles;
     }
 
     @Override
