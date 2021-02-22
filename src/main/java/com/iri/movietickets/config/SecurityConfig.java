@@ -2,6 +2,7 @@ package com.iri.movietickets.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,6 +33,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/register/**").permitAll()
                 .anyRequest().authenticated()
+                .antMatchers(HttpMethod.POST,"/cinema-halls/**").hasRole("admin")
+                .antMatchers(HttpMethod.POST, "/movie-sessions/**").hasRole("admin")
+                .antMatchers(HttpMethod.PUT, "/movie-sessions/**").hasRole("admin")
+                .antMatchers(HttpMethod.DELETE, "/movie-sessions/**").hasRole("admin")
+                .antMatchers(HttpMethod.POST,"/movies/**").hasRole("admin")
                 .and()
                 .formLogin().permitAll()
                 .and()
