@@ -5,8 +5,7 @@ import com.iri.movietickets.model.User;
 import com.iri.movietickets.service.RoleService;
 import com.iri.movietickets.service.ShoppingCartService;
 import com.iri.movietickets.service.UserService;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,9 +28,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setEmail(email);
         user.setPassword(password);
         Role role = roleService.getRoleByName("user");
-        List<Role> roles = new ArrayList<>();
-        roles.add(role);
-        user.setUserRoles(roles);
+        user.setUserRoles(Set.of(role));
         User userRegisted = userService.add(user);
         shoppingCartService.registerNewShoppingCart(userRegisted);
         return user;

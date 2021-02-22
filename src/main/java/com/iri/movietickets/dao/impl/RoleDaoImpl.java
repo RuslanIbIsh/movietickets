@@ -32,7 +32,7 @@ public class RoleDaoImpl implements RoleDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Could save role", e);
+            throw new DataProcessingException("Could save role" + role, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -49,7 +49,8 @@ public class RoleDaoImpl implements RoleDao {
             getRoleByName.setParameter("name", name);
             return getRoleByName.uniqueResultOptional();
         } catch (Exception e) {
-            throw new DataProcessingException("Could not find role", e);
+            throw new DataProcessingException("Could not find role by roleName"
+                    + name, e);
         }
     }
 }

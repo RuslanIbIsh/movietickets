@@ -5,19 +5,19 @@ import com.iri.movietickets.model.User;
 import com.iri.movietickets.service.RoleService;
 import com.iri.movietickets.service.ShoppingCartService;
 import com.iri.movietickets.service.UserService;
-import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
 @Service
-public class InjectData {
+public class DataInitializer {
     private RoleService roleService;
     private UserService userService;
     private ShoppingCartService shoppingCartService;
 
-    public InjectData(RoleService roleService,
-                      UserService userService,
-                      ShoppingCartService shoppingCartService) {
+    public DataInitializer(RoleService roleService,
+                           UserService userService,
+                           ShoppingCartService shoppingCartService) {
         this.roleService = roleService;
         this.userService = userService;
         this.shoppingCartService = shoppingCartService;
@@ -34,8 +34,7 @@ public class InjectData {
         User user = new User();
         user.setEmail("john@mail.com");
         user.setPassword("1234");
-        user.setUserRoles(List.of(adminRole));
+        user.setUserRoles(Set.of(adminRole));
         userService.add(user);
-        shoppingCartService.registerNewShoppingCart(user);
     }
 }

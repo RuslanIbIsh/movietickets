@@ -24,10 +24,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userService.findByEmail(email).orElseThrow(() ->
-                new UsernameNotFoundException("Could not fine user"));
+                new UsernameNotFoundException("Could not fine user by email" + email));
         List<String> roles = new ArrayList<>();
-        for (Role r : user.getUserRoles()) {
-            roles.add(r.getRoleName());
+        for (Role role : user.getUserRoles()) {
+            roles.add(role.getRoleName());
         }
         UserBuilder userBuilder = withUsername(user.getEmail())
                 .password(user.getPassword())
